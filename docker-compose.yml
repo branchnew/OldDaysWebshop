@@ -1,0 +1,46 @@
+version: '3.1'
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    networks:
+      - database
+      - web
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  mariadb:
+    image: 'mariadb:latest'
+    networks:
+      - database
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    depends_on:
+      - mariadb
+    networks:
+      - database
+    environment:
+      - PMA_HOST=mariadb
+      - VIRTUAL_HOST=pma.local
+
+  php:
+    build:
+      context: .
+    networks:
+      - database
+      - web
+    volumes:
+      - './www:/var/www/html/'
+    environment:
+      - VIRTUAL_HOST=dev.local
+
+networks:
+  database:
+  web:
