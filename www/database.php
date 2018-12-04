@@ -4,7 +4,7 @@ $username = "root";
 $password = "password";
 $dbname = "webbshop";
 
-// Open connection
+//öppna connection
 try
 {
 	$pdo = new PDO('mysql:host=mariadb;dbname=webbshop', $username, $password);

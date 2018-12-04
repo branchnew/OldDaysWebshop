@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+//skriva ut fel meddelanden
 if (isset($_GET['err'])){
   switch ($_GET['err']) {
     case 1:
@@ -52,7 +53,7 @@ require "header.php";
 
             <div class="field">
               <a class="">Want to register?</a>
-              <a class="is-hidden">Want to login?</a>
+              <a class="is-hidden">Want to login?</a> 
                 <button class="button is-white is-pulled-right">Login</button>
                 <button class="button is-white is-hidden is-pulled-right">Register</button>
             </div>

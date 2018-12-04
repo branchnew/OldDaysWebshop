@@ -11,7 +11,7 @@ $sql = "SELECT p.id, p.name, p.info, p.price, c.name AS catname
         FROM product p JOIN category c ON (p.category_id = c.id)";
 
 if ($search) {
-  $sql = $sql." WHERE p.name LIKE '%$search%'";
+  $sql = $sql." WHERE p.name LIKE '%$search%'";// lägg till query search för att hitta produkt
 }
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
@@ -35,26 +35,26 @@ require "header.php";
       </div>
     </form>
 </section>
-
+<!-- hämta produkter från databas och vill veta antal name och price för att skicka den till payment sen -->
 <form class="" action="payment.php" method="post">
 <section class="section">
   <div class="content">
-    <?php while ($row = $stmt->fetch()) { ?>
+    <?php while ($product = $stmt->fetch()) { ?>
     <div class="columns">
-      <div class="column is-2"><?= $row['name']?>  </div>
-      <div class="column is-6"><?= $row['info']?></div>
-      <div class="column is-2 has-text-right"><?= $row['price']?> kr </div>
+      <div class="column is-2"><?= $product['name']?>  </div>
+      <div class="column is-6"><?= $product['info']?></div>
+      <div class="column is-2 has-text-right"><?= $product['price']?> kr </div>
       <div class="column is-2">
-        <input class="input" type="number" min="0" value="0" name="<?= $row['id'] ?>-qty" size="2" >
-        <input type="hidden" name="<?= $row['id'] ?>-name" value="<?= $row['name'] ?>">
-        <input type="hidden" name="<?= $row['id'] ?>-price" value="<?= $row['price'] ?>">
+        <input class="input" type="number" min="0" value="0" name="<?= $product['id'] ?>-qty" size="2" >
+        <input type="hidden" name="<?= $product['id'] ?>-name" value="<?= $product['name'] ?>">
+        <input type="hidden" name="<?= $product['id'] ?>-price" value="<?= $product['price'] ?>">
       </div>
     </div>
     <?php } ?>
 
   </div>
 </section>
-
+<!-- betalning sätt -->
 <section>
     <div class="columns">
       <div class="column is-offset-2 is-3 has-text-centered">

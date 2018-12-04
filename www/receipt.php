@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+//validera uppgifterna payment
+
 if (empty($_POST['fullname']) || empty($_POST['address']) || empty($_POST['city']) || empty($_POST['phonenumber']) || !preg_match('/[0-9]{5}/', $_POST['postcode'])) {
 	header('location:payment.php?err=1');
   exit();
