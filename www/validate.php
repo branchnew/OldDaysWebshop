@@ -29,14 +29,14 @@ if (!empty($name)) {
 	doLogin($email, $name);
 } else {
   // vid login
-  $sql 	= "SELECT hash, name FROM user WHERE email = '$email'";
+  $sql 	= "SELECT hash, name, admin FROM user WHERE email = '$email'";
 
   $stmt = $pdo->prepare($sql);
   $stmt->execute();
   $row = $stmt->fetch();
 
   if (password_verify($password, $row['hash'])) { //validera password som användaren har skrivit stämmer med den hash som är sparat
-    doLogin($email, $row['name']);
+    doLogin($email, $row['name'], $row['admin']);
   } else {
     header('location:index.php?err=1');
   }
@@ -44,9 +44,9 @@ if (!empty($name)) {
 
 
 
-function doLogin($email, $name) //sparar i session email och name och skickat till product sidan
+function doLogin($email, $name, $admin = false) //sparar i session email och name och skickat till product sidan
 {
-	$_SESSION['auth'] = true;
+	$_SESSION['admin'] = $admin;
 	$_SESSION['email'] = $email;
 	$_SESSION['name'] = $name;
 	header('location:product.php');

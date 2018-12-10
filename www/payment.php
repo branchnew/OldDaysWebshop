@@ -4,6 +4,7 @@ session_start();
 require "header.php";
 
 if (isset($_GET['err'])){
+  $payment = $_SESSION['payment'];
   $products = $_SESSION['products'];
   $sum = $_SESSION['sum'];
 
@@ -19,6 +20,8 @@ if (isset($_GET['err'])){
 
 
 else {
+  $payment = isset($_POST['card'])?'card':'invoice';
+  $_SESSION['payment'] = $payment;
   $products = [];
   foreach ($_POST as $key => $value) {//key är array index till $_post
     if (strpos($key, "-") !== false) {//string position true använd explode för att få $key delat och spara i products array
@@ -76,7 +79,7 @@ else {
             <?php if (isset($_GET['err'])) { ?>
               <p class="has-text-danger has-text-weight-bold"><?= $errorMessage ?></p>
             <?php } ?>
-            <?php if (isset($_POST['invoice'])): ?>
+            <?php if ($payment == 'invoice'): ?>
             <div class="field">
               <input class="input" name="personnummer" type="text" placeholder="Personnummer">
             </div>
@@ -97,7 +100,7 @@ else {
                 <input class="input" name="phonenumber" type="text" placeholder="Phone number">
             </div>
             <br>
-            <?php if (isset($_POST['card'])): ?>
+            <?php if ($payment == 'card'): ?>
             <label class="label">Payment information</label>
             <div class="field">
               <input class="input" name="cardname" type="text" placeholder="Cardholder's name">
@@ -126,9 +129,6 @@ else {
             <button class="button is-warning is-medium is-fullwidth" type="submit" name="button">Pay</button>
           </div>
         </div>
-
-        <input type="hidden" name="payment" value="<?= isset($_POST['card'])?'card':'invoice' ?>">
-
       </form>
     </div>
   </div>

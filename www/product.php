@@ -20,6 +20,7 @@ require "header.php";
 ?>
 <nav class="navbar has-background-info has-text-weight-bold">
   <p class="navbar-item has-text-white">Hello <?= $_SESSION['name'] ?>!</p>
+  <a class="navbar-item has-text-white is-pulled-right" href="admin.php">Admin</a>
 </nav>
 
 <section class="section">
